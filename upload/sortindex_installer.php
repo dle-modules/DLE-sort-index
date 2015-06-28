@@ -195,6 +195,21 @@
 				<textarea readonly>p.fixed, p.sorting</textarea>
 			</li>
 			<li>
+				<h3>Открыть: \engine\modules\functions.php</h3>
+				<b>Найти: </b>
+				<textarea readonly>$tpl->load_template( $custom_template . '.tpl' );</textarea>
+				<b>Ниже вставить:</b>
+			
+<textarea readonly>$sort_index = "";
+		if ($config['allow_sort_index']) {
+			$sort_index = ($config['news_msort_index']) ? "sorting ".$config['news_msort_index'].", " : "sorting ASC, ";
+		}</textarea>
+				<b>Найти:</b> 
+				<textarea readonly>$fixed . $news_sort</textarea>
+				<b>Заменить на:</b>
+				<textarea readonly>$fixed . $sort_index . $news_sort</textarea>
+			</li>
+			<li>
 			<h3>Открыть: \engine\engine.php</h3>
 			<b>Найти:</b> 
 			<textarea readonly>$attachments = array ();</textarea>
@@ -284,7 +299,7 @@
 		{
 
 			// Cоздание таблицы для хака
-			$query = "ALTER TABLE `".PREFIX."_post` ADD `sorting` int(10) NOT NULL DEFAULT '500'";
+			$query = "ALTER TABLE `".PREFIX."_post` ADD `sorting` int(10) NOT NULL DEFAULT '500', ADD INDEX (`sorting`);";
 			$dle_api->db->query($query);
 
 			// Вывод
@@ -332,4 +347,3 @@ HTML;
 	}
 
 ?>
-
